@@ -22,7 +22,7 @@ body {  background:#3C89CD; font:11px sans-serif; width:100%; height:100%; color
 <script src="src3d/ImprovedNoise.js"></script>
 <script src="src3d/view3d.js"></script>
 <script src="src3d/hub.js"></script>
-<!--<script src="src3d/saveLoad.js"></script>-->
+<script src="src3d/saveLoad.js"></script>
 
 </head>
 <body>
@@ -99,19 +99,19 @@ function loop() {
 function saveGame(){
     console.log("save game");
     cityWorker.postMessage({tell:"SAVEGAME"});
-    //saveTextAsFile('test', 'game is saved');
+    saveTextAsFile('test', 'game is saved');
 }
 
 function loadGame(){
     console.log("load game");
     loadFileAsText();
-    //saveTextAsFile('test', 'game is saved');
+    saveTextAsFile('test', 'game is saved');
 }
 
 function newGameMap(){
     console.log("new map");
 
-    //saveTextAsFile('test', 'game is saved');
+    saveTextAsFile('test', 'game is saved');
 }
 
 //=======================================
@@ -203,7 +203,7 @@ cityWorker.onmessage = function(e) {
     if( phase == "NEWMAP"){
         tilesData = e.data.tilesData;
         view3d.paintMap( e.data.mapSize, e.data.island, true);
-        //trans = e.data.trans;
+        trans = e.data.trans;
         hub.start();
     }
     if( phase == "BUILD"){
