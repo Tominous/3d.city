@@ -7,7 +7,7 @@ V3D.helicopter = function(base){
     this.gaz = 0.6;
     this.ge = 0;
 
-    //this.hud = document.getElementsByClassName('hud');//
+    this.hud = document.getElementsByClassName('hud');
     this.hud = document.getElementById('hud').contentDocument;
 
 	this.init();
@@ -49,9 +49,9 @@ V3D.helicopter.prototype = {
     		if(o.name == 'elico3'){ o.position.z = -o.position.z; this.parts[3] = o; }
     	}
     	this.base.scene.add( this.mesh );
-       // this.sound.play();
-       // this.sound.loop = true;
-      // move(1);
+        this.sound.play();
+        this.sound.loop = true;
+       move(1);
     },
     move:function(dir){
         switch(dir){
