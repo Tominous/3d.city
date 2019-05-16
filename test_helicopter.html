@@ -39,7 +39,7 @@ window.onload = init;
 
 function init(){
     view3d = new V3D.Base();
-    //start();
+    start();
 }
 
 function log(txt){ l.innerHTML = txt || '';  }
@@ -58,7 +58,7 @@ function start() {
 
 function loop() {
 	requestAnimationFrame( loop );
-    //view3d.renderer.render( view3d.scene, view3d.camera );
+    view3d.renderer.render( view3d.scene, view3d.camera );
     if(helico) helico.fly();
     view3d.render();
 
