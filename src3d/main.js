@@ -22,7 +22,7 @@ var storage;
 
 function debug(txt){ d.innerHTML += "<br>"+txt; }
 
-//window.onload = init;
+window.onload = init;
  
 function testMobile() {
     if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) 
@@ -36,7 +36,7 @@ function init(){
 
     storage = window.localStorage;
 
-    //cityWorker = new Worker('js/worker.city.js');
+    cityWorker = new Worker('js/worker.city.js');
     
     hub = new HUB.Base();
     view3d = new V3D.Base(isMobile);
@@ -85,7 +85,7 @@ function saveGame(){
     var saveCity = [];
     view3d.saveCityBuild(saveCity);
     saveCity = JSON.stringify(saveCity);
-   // var cityData = view3d.saveCityBuild();
+    var cityData = view3d.saveCityBuild();
     cityWorker.postMessage({tell:"SAVEGAME", saveCity:saveCity });
 }
 function loadGame(atStart){
@@ -115,7 +115,7 @@ function makeLoadGame(key, atStart){
 function newGameMap(){
     console.log("new map");
 
-    //saveTextAsFile('test', 'game is saved');
+    saveTextAsFile('test', 'game is saved');
 }
 
 //=======================================
@@ -198,7 +198,7 @@ function setDisaster(disaster){
 }
 
 function setOverlays(type){
-    //cityWorker.postMessage({ tell:"OVERLAYS", type:type });
+    cityWorker.postMessage({ tell:"OVERLAYS", type:type });
 }
 
 function destroy(x,y) {
@@ -216,7 +216,7 @@ function initCity() {
 
     cityWorker.postMessage = cityWorker.webkitPostMessage || cityWorker.postMessage;
     cityWorker.postMessage({tell:"INIT", url:document.location.href.replace(/\/[^/]*$/,"/") + "build/city.3d.min.js", timestep:simulation_timestep });
-    //cityWorker.postMessage({tell:"INIT", url:document.location.href.replace(/\/[^/]*$/,"/") + "build/city.3d.js", timestep:simulation_timestep });
+    cityWorker.postMessage({tell:"INIT", url:document.location.href.replace(/\/[^/]*$/,"/") + "build/city.3d.js", timestep:simulation_timestep });
 }
 
 cityWorker.onmessage = function(e) {
@@ -225,12 +225,12 @@ cityWorker.onmessage = function(e) {
     if( phase == "NEWMAP"){
         tilesData = e.data.tilesData;
         view3d.paintMap( e.data.mapSize, e.data.island, true);
-        //trans = e.data.trans;
+        trans = e.data.trans;
         hub.start();
     }
     if( phase == "FULLREBUILD"){
         if(e.data.isStart){
-            //hub.initGameHub();
+            hub.initGameHub();
             view3d.startZoom();
         }
         view3d.fullRedraw = true;
