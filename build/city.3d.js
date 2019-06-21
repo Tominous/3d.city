@@ -8,12 +8,12 @@
  */
 var Micro = {};
 //Game
-/*Micro.nextFrame = window.requestAnimationFrame ||
+Micro.nextFrame = window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     window.oRequestAnimationFrame ||
     window.msRequestAnimationFrame ||
-    null;*/
+    null;
 //Simulation
 Micro.speedPowerScan = [2, 4, 5];
 Micro.speedPollutionTerrainLandValueScan = [2, 7, 17];
@@ -47,7 +47,7 @@ Micro.arrs = ['res', 'com', 'ind', 'crime', 'money', 'pollution'];
 var M_ARRAY_TYPE;
 if(!M_ARRAY_TYPE) { M_ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array; }
 
-/*Micro.MouseBox = {
+Micro.MouseBox = {
 
     draw: function( c, pos, width, height, options ) {
         var lineWidth = options.lineWidth || 3.0;
@@ -71,7 +71,7 @@ if(!M_ARRAY_TYPE) { M_ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float
         ctx.strokeStyle = strokeStyle;
         ctx.strokeRect(startX, startY, width, height); 
     }
-}*/
+}
 
 // MiscUtils,
 Micro.clamp = function(value, min, max) {
@@ -87,7 +87,7 @@ Micro.makeConstantDescriptor = function(value) {
 Micro.rotate10Arrays = function() {
     for (var i = 0; i < Micro.arrs.length; i++) {
         var name10 = Micro.arrs[i] + 'Hist10';
-        //this[name10] = [0].concat(this[name10].slice(0, -1));
+        this[name10] = [0].concat(this[name10].slice(0, -1));
         this[name10].pop();
         this[name10].unshift(0);
     }
@@ -96,7 +96,7 @@ Micro.rotate10Arrays = function() {
 Micro.rotate120Arrays = function() {
     for (var i = 0; i < Micro.arrs.length; i++) {
         var name120 = Micro.arrs[i] + 'Hist120';
-        //this[name120] = [0].concat(this[name120].slice(0, -1));
+        this[name120] = [0].concat(this[name120].slice(0, -1));
         this[name120].pop();
         this[name120].unshift(0)  
     }
@@ -175,9 +175,9 @@ Micro.DISASTER_TORNADO='Tornado';
 // storage
 Micro.CURRENT_VERSION = 3;
 Micro.KEY = 'micropolisJSGame';
-///Micro.canStore = window.localStorage;
+Micro.canStore = window.localStorage;
 
-//Micro.localStorage = null;
+Micro.localStorage = null;
 /* micropolisJS. Adapted by Graeme McCutcheon from Micropolis.
  *
  * This code is released under the GNU GPL v3, with some additional terms.
@@ -208,7 +208,7 @@ Micro.Random.prototype = {
     },
 
     getRandom : function( max ) {
-        //return Micro.randInt( 0, max );
+        return Micro.randInt( 0, max );
         return Math.floor(Math.random() * (max + 1));
     },
 
@@ -529,9 +529,9 @@ Micro.Census = function(){
     this.totalPop = 0;
 
     var createArray = function(arrName) {
-        //this[arrName] = new M_ARRAY_TYPE(120);
+        this[arrName] = new M_ARRAY_TYPE(120);
         this[arrName] = [];
-        //for (var a = 0; a < 120; a++) this[arrName][a] = 0;
+        for (var a = 0; a < 120; a++) this[arrName][a] = 0;
         var a = 120;
         while(a--) this[arrName][a] = 0;
     }
@@ -699,7 +699,7 @@ Micro.Evaluation.prototype = {
             this.changeEval();
         }
     },
-    /*cityEvaluation : function(simData) {
+    cityEvaluation : function(simData) {
         var census = simData.census;
 
         if (census.totalPop > 0) {
@@ -716,7 +716,7 @@ Micro.Evaluation.prototype = {
             this.cityYes = 50;
             this.changeEval();
         }
-    },*/
+    },
     evalInit : function() {
         this.cityYes = 0;
         this.cityPop = 0;
@@ -821,7 +821,7 @@ Micro.Evaluation.prototype = {
             }
         }
     },
-    //getScore : function(simData, problemTable) {
+    getScore : function(simData, problemTable) {
     getScore : function(problemTable) {
         var census = this.sim.census;
         var budget = this.sim.budget;
@@ -1208,8 +1208,8 @@ Micro.Valves.prototype = {
  */
 Micro.Tile = function(tileValue, bitMask){
     if (!(this instanceof Micro.Tile)) return new Micro.Tile();
-    //if (arguments.length && (typeof(tileValue) !== 'number' || (arguments.length > 1 && typeof(bitMask) !== 'number') || tileValue < 0)) throw new Error('Invalid parameter');
-    //if (arguments.length > 1 && (tileValue >= Tile.TILE_COUNT || bitMask < Tile.BIT_START || bitMask >= (Tile.BIT_END << 1))) throw new Error('Invalid parameter');
+    if (arguments.length && (typeof(tileValue) !== 'number' || (arguments.length > 1 && typeof(bitMask) !== 'number') || tileValue < 0)) throw new Error('Invalid parameter');
+    if (arguments.length > 1 && (tileValue >= Tile.TILE_COUNT || bitMask < Tile.BIT_START || bitMask >= (Tile.BIT_END << 1))) throw new Error('Invalid parameter');
     this._value = tileValue;
     // If no value supplied, default to Tile.DIRT
     if (this._value === undefined) this._value = Tile.DIRT;
@@ -1255,10 +1255,10 @@ Micro.Tile.prototype = {
         this._value &= ~bitMask;
     },
     setFlags : function(bitMask) {
-        //if (typeof(bitMask) !== 'number' || bitMask < Tile.BIT_START || bitMask >= (Tile.BIT_END << 1)) throw new Error('Invalid parameter');
-        //if (arguments.length === 0) throw new Error('Tile setFlags called with no arguments');
-        //if (typeof(bitMask) !== 'number') throw new Error('Tile setFlags called with invalid bitmask ' + bitMask);
-       // if (bitMask < Tile.BIT_START || bitMask >= (Tile.BIT_END << 1)) throw new Error('Tile setFlags called with out-of-range bitmask ' + bitMask);
+        if (typeof(bitMask) !== 'number' || bitMask < Tile.BIT_START || bitMask >= (Tile.BIT_END << 1)) throw new Error('Invalid parameter');
+        if (arguments.length === 0) throw new Error('Tile setFlags called with no arguments');
+        if (typeof(bitMask) !== 'number') throw new Error('Tile setFlags called with invalid bitmask ' + bitMask);
+        if (bitMask < Tile.BIT_START || bitMask >= (Tile.BIT_END << 1)) throw new Error('Tile setFlags called with out-of-range bitmask ' + bitMask);
         var existingValue = this._value & ~Tile.ALLBITS;
         this._value = existingValue | bitMask;
     },
@@ -1707,7 +1707,7 @@ Micro.GameMapProps = ['cityCentreX', 'cityCentreY', 'pollutionMaxX', 'pollutionM
 
 Micro.GameMap = function( width, height, defaultValue ){
 
-    /*if (!(this instanceof Micro.GameMap)) return new Micro.GameMap(width, height, defaultValue);
+    if (!(this instanceof Micro.GameMap)) return new Micro.GameMap(width, height, defaultValue);
     var e = new Error('Invalid parameter');
     if (arguments.length > 1 && typeof(width) === 'number' && (width < 1 || height < 1)) throw e;
 
@@ -1732,7 +1732,7 @@ Micro.GameMap = function( width, height, defaultValue ){
       if (typeof(defaultValue) === 'object')
         defaultValue = defaultValue.getValue();
     }
-*/
+
 
     this.isIsland = false;
     this.Direction = new Micro.Direction();
@@ -1740,9 +1740,9 @@ Micro.GameMap = function( width, height, defaultValue ){
     this.width = width;
     this.height = height;
     this.fsize = this.width * this.height;
-    /*Object.defineProperties(this,
+    Object.defineProperties(this,
       {width: new Micro.makeConstantDescriptor(width),
-       height: new Micro.makeConstantDescriptor(height)});*/
+       height: new Micro.makeConstantDescriptor(height)});
 
     this.defaultValue = new Micro.Tile().getValue();
 
@@ -1756,7 +1756,7 @@ Micro.GameMap = function( width, height, defaultValue ){
         this.data[i] = new Micro.Tile( this.defaultValue );
         this.tilesData[i] = this.defaultValue;
     }
-    /*console.log(this.data.length)*/
+    console.log(this.data.length)
 
     // Generally set externally
     this.cityCentreX = Math.floor(this.width * 0.5);
@@ -1782,7 +1782,7 @@ Micro.GameMap.prototype = {
         }
 
         // MAP DATA
-        //saveData.map = this.data.map(function(t) { return {value: t.getRawValue()}; });
+        saveData.map = this.data.map(function(t) { return {value: t.getRawValue()}; });
 
         
         saveData.map = [];
@@ -1803,19 +1803,19 @@ Micro.GameMap.prototype = {
         }
 
 
-        //saveData.map = this.data.map(function(t) { return {value: t.getRawValue()};});
-        //saveData.map = this.data.map(function(t) { return {value: t.getRawValue()}; });
-        //saveData.map = [];//this.tilesData.map(function(t) { return {value: t };});
-        /*saveData.tileValue = [];
+        saveData.map = this.data.map(function(t) { return {value: t.getRawValue()};});
+        saveData.map = this.data.map(function(t) { return {value: t.getRawValue()}; });
+        saveData.map = [];//this.tilesData.map(function(t) { return {value: t };});
+        saveData.tileValue = [];
         var j = this.fsize;
         while( j-- ) saveData.tileValue[j] = this.tilesData[j];
-        */
-        /*saveData.power = [];
+        
+        saveData.power = [];
         var j = this.fsize;
         while(j--){
-           // saveData.map[j] = this.tilesData[j];
+            saveData.map[j] = this.tilesData[j];
             saveData.power[j] = this.powerData[j];
-        }*/
+        }
     },
 
     load: function( saveData ) {
@@ -1853,31 +1853,31 @@ Micro.GameMap.prototype = {
         }
 
 
-        /*for (var i = 0, l = Micro.GameMapProps.length; i < l; i++) this[Micro.GameMapProps[i]] = saveData[Micro.GameMapProps[i]];
+        for (var i = 0, l = Micro.GameMapProps.length; i < l; i++) this[Micro.GameMapProps[i]] = saveData[Micro.GameMapProps[i]];
         var map = saveData.map, value;
         for (i = 0, l = map.length; i < l; i++){
             this.setTileValue(i % this.width, Math.floor(i / this.width), map[i].value);
-            //value = map[i] || 0;
-            //this.setTileValue(i % this.width, Math.floor(i / this.width), map[i]);
-            //this.data[i].setValue(value);
-            //this.tilesData[i] = value;
+            value = map[i] || 0;
+            this.setTileValue(i % this.width, Math.floor(i / this.width), map[i]);
+            this.data[i].setValue(value);
+            this.tilesData[i] = value;
         }
 
-        for (i = 0, l = saveData.tileValue.length; i < l; i++) this.tilesData[i] = saveData.tileValue[i];*/
-        /*
+        for (i = 0, l = saveData.tileValue.length; i < l; i++) this.tilesData[i] = saveData.tileValue[i];
+        
         var power = saveData.power;
         for (i = 0, l = power.length; i < l; i++) this.powerData[i] = power[i];
-        */
+        
 
     },
 
-    /*genFull : function(){
+    genFull : function(){
         var i = this.data.length;
         while(i--){
             this.tilesData[i] = this.data[i].getValue();
         }
         return this.tilesData;
-    },*/
+    },
 
     _calculateIndex : function(x, y) {
         return x + y * this.width;
@@ -1888,11 +1888,11 @@ Micro.GameMap.prototype = {
     },
 
     getTile : function(x, y, newTile) {
-        //var e = new Error('Invalid parameter');
-        //if (arguments.length < 1) throw e;
+        var e = new Error('Invalid parameter');
+        if (arguments.length < 1) throw e;
         // Argument-shuffling
         if (typeof(x) === 'object') { y = x.y; x = x.x; }
-        //if (!this.testBounds(x, y)) throw e;
+        if (!this.testBounds(x, y)) throw e;
 
         var width = this.width;
         var height = this.height;
@@ -1904,15 +1904,15 @@ Micro.GameMap.prototype = {
         var tileIndex = x + y * width;
         var tile = this.data[tileIndex];
 
-        //var tileIndex = this._calculateIndex(x, y);
+        var tileIndex = this._calculateIndex(x, y);
         // Return the original tile if we're not given a tile to fill
         if (!newTile) return tile;
 
         newTile.set(tile);
         return tile;
 
-        //if (!(tileIndex in this.data)) this.data[tileIndex] = new Micro.Tile(this.defaultValue);
-        //return this.data[tileIndex];
+        if (!(tileIndex in this.data)) this.data[tileIndex] = new Micro.Tile(this.defaultValue);
+        return this.data[tileIndex];
     },
 
     getTileValue: function( x, y ) {
@@ -1953,7 +1953,7 @@ Micro.GameMap.prototype = {
             res[a - y] = [];
             for (var b = x, xlim = x + w; b < xlim; b++) {
                 var tileIndex = this._calculateIndex(b, a);
-                //if (!(tileIndex in this.data)) this.data[tileIndex] = new Micro.Tile(this.defaultValue);
+                if (!(tileIndex in this.data)) this.data[tileIndex] = new Micro.Tile(this.defaultValue);
                 res[a-y].push(this.data[tileIndex]);
             }
         }
@@ -1966,7 +1966,7 @@ Micro.GameMap.prototype = {
         if (arguments.length < 3) throw e;
         // Argument-shuffling
         if (arguments.length === 3) { h = w; w = y;  y = x.y; x = x.x; }
-        //if (!this.testBounds(x, y)) throw e;
+        if (!this.testBounds(x, y)) throw e;
         var width = this.width;
         var height = this.height;
 
@@ -1978,20 +1978,20 @@ Micro.GameMap.prototype = {
                     continue;
                 }
                 var tileIndex =  b + a * width;
-                //result[(a - y) * w + (b - x)] = this._data[tileIndex].getRawValue();
+                result[(a - y) * w + (b - x)] = this._data[tileIndex].getRawValue();
                 result[(a - y) * w + (b - x)] = this.data[tileIndex].getRawValue();
             }
         }
 
-        //var res = [];
-        /*for (var a = y, ylim = y + h; a < ylim; a++) {
+        var res = [];
+        for (var a = y, ylim = y + h; a < ylim; a++) {
             res[a - y] = [];
             for (var b = x, xlim = x + w; b < xlim; b++) {
                 var tileIndex = this._calculateIndex(b, a);
                 if (!(tileIndex in this.data)) this.data[tileIndex] = new Micro.Tile(this.defaultValue);
                 res[a-y].push(this.data[tileIndex].getValue());
             }
-        }*/
+        }
         return result;
     },
 
@@ -2016,11 +2016,11 @@ Micro.GameMap.prototype = {
 
     setTile: function(x, y, value, flags) {
 
-        //var e = new Error('Invalid parameter');
-        //if (arguments.length < 3) throw e;
+        var e = new Error('Invalid parameter');
+        if (arguments.length < 3) throw e;
         // Argument-shuffling
         if (arguments.length === 3) { flags = value; value = y; y = x.y; x = x.x; }
-        //if (!this.testBounds(x, y)) throw e;
+        if (!this.testBounds(x, y)) throw e;
 
         var id = this._calculateIndex( x, y );
 
